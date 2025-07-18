@@ -1,0 +1,42 @@
+AI TOOLS I'VE BEEN TRYING
+==========================
+I work with at least one new tool per week
+* represents a favorite
+
+AI/LLM Development:
+• Claude Sonnet 4* 
+• Codex (OpenAI)
+• Julian (Google)
+
+Development Tools:
+• v0 (Vercel's AI-powered UI builder)*
+• Vercel (deployment)*
+• Supabase (database)
+• Cursor (AI-powered code editor)
+• React.js
+• Replit
+• Lovable
+
+Design & Content:
+• Midjourney
+• DALL-E
+• ChatGPT for content generation
+• Claude for analysis
+
+Workflow & Automation:
+• n8n (workflow automation)*
+• Zapier
+
+Business Tools:
+• Custom GPTs for sales automation
+• AI-powered CRM integrations
+• Automated content generation
+• Lead scoring with AI
+
+Current Focus:
+• Building AI-powered sales workflows
+• Creating custom GPTs for GTM teams
+• Learning prompt engineering
+• Exploring AI for startup growth
+
+Last updated: July 2025 
