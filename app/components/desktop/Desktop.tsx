@@ -482,8 +482,8 @@ export default function Desktop({
                   </div>
                   <div className="flex items-center gap-2 text-xs text-gray-700">
                     <Linkedin className="h-3 w-3" />
-                    <a href="https://linkedin.com/in/samrosenbaum" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
-                      linkedin.com/in/samrosenbaum
+                    <a href="https://www.linkedin.com/in/samantharosenbaum/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
+                      linkedin.com/in/samantharosenbaum
                     </a>
                   </div>
                 </div>
