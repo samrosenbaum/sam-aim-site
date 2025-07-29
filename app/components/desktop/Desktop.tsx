@@ -1,5 +1,5 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -88,6 +88,7 @@ export default function Desktop({
   setWindows,
 }: DesktopProps) {
   const isMobile = useIsMobile()
+  const [showMobileIcons, setShowMobileIcons] = useState(false)
   // Bitcoin price ticker
   useEffect(() => {
     const fetchBitcoinPrice = async () => {
@@ -214,11 +215,141 @@ export default function Desktop({
       `}</style>
 
 
-{/* Windows 95 Desktop Icons */}
-<div className={`${isMobile 
-  ? "fixed top-16 left-0 right-0 p-4 bg-teal-500/90 backdrop-blur-sm grid grid-cols-4 gap-3 z-20 border-b border-teal-600" 
-  : "absolute top-4 left-4 space-y-6 z-10"
-}`}>
+{/* Mobile Desktop Icons Header */}
+{isMobile && (
+  <div className="fixed top-0 left-0 right-0 z-40 bg-teal-600 border-b border-teal-700">
+    <Button
+      onClick={() => setShowMobileIcons(!showMobileIcons)}
+      className="w-full h-12 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold border-0 rounded-none justify-between px-4"
+    >
+      <span>🖥️ Desktop Apps</span>
+      <span className={`transition-transform ${showMobileIcons ? 'rotate-180' : ''}`}>▼</span>
+    </Button>
+    {showMobileIcons && (
+      <div className="p-4 bg-teal-500/95 backdrop-blur-sm grid grid-cols-4 gap-3 border-b border-teal-600">
+        <a
+          href="/reading-list.txt"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+        >
+          <div className="w-10 h-10 bg-gray-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <span className="text-xl">📚</span>
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            My Library
+          </span>
+        </a>
+
+        <a
+          href="https://jspaint.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+        >
+          <div className="w-10 h-10 bg-gray-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <img src="/images/ms-paint.png" alt="Microsoft Paint" className="h-6 w-6 object-contain" />
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            Paint
+          </span>
+        </a>
+
+        <a
+          href="https://minesweeper.online/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+        >
+          <div className="w-10 h-10 bg-yellow-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <img src="/images/minesweeper.png" alt="Minesweeper" className="h-6 w-6 object-contain" />
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            Minesweeper
+          </span>
+        </a>
+
+        <a
+          href="https://x.com/sammskiii"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+        >
+          <div className="w-10 h-10 bg-gray-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <img src="/images/xanga.png" alt="Xanga" className="h-6 w-6 object-contain" />
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            Xanga
+          </span>
+        </a>
+
+        <a
+          href="/ai-tools-list.txt"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+        >
+          <div className="w-10 h-10 bg-purple-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <span className="text-xl">⏰</span>
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            Time Travel
+          </span>
+        </a>
+
+        <a
+          href="https://open.spotify.com/playlist/1udqwx26htiKljZx4HwVxs"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+        >
+          <div className="w-10 h-10 bg-gray-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <img src="/images/limewire.jpg" alt="LimeWire" className="h-6 w-6 object-contain" />
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            LimeWire
+          </span>
+        </a>
+
+        <div className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+          onClick={() => {
+            setWindows(windows => windows.map(w =>
+              w.id === "profile" ? { ...w, isOpen: true } : w
+            ));
+          }}
+        >
+          <div className="w-10 h-10 bg-blue-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <User className="h-5 w-5 text-gray-700" />
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            Sam's Portfolio
+          </span>
+        </div>
+
+        <a
+          href="https://bitcoin.org/bitcoin.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+        >
+          <div className="w-10 h-10 bg-orange-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <span className="text-xl">🍕</span>
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            Pizza Money
+          </span>
+          <div className="text-[10px] text-yellow-300 font-mono mt-1" id="btc-price-mobile">
+            Loading...
+          </div>
+        </a>
+      </div>
+    )}
+  </div>
+)}
+
+{/* Desktop Icons - Desktop Only */}
+{!isMobile && (
+<div className="absolute top-4 left-4 space-y-6 z-10">
         <a
           href="/reading-list.txt"
           target="_blank"
@@ -321,8 +452,9 @@ export default function Desktop({
           </span>
         </div>
       </div>
+)}
 
-      {/* Bottom Right Desktop Icon - hide on mobile, already in main grid */}
+      {/* Bottom Right Desktop Icon - Desktop Only */}
       {!isMobile && (
       <div className="absolute bottom-20 right-4 z-10">
         <a
@@ -342,26 +474,6 @@ export default function Desktop({
           </div>
         </a>
       </div>
-      )}
-
-      {/* Bitcoin icon for mobile - add to main grid */}
-      {isMobile && (
-        <a
-          href="https://bitcoin.org/bitcoin.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
-        >
-          <div className="w-10 h-10 bg-orange-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
-            <span className="text-xl">🍕</span>
-          </div>
-          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
-            Pizza Money
-          </span>
-          <div className="text-[10px] text-yellow-300 font-mono mt-1" id="btc-price-mobile">
-            Loading...
-          </div>
-        </a>
       )}
 
       {/* Windows 95 Taskbar */}
@@ -417,7 +529,7 @@ export default function Desktop({
         </div>
       </div>
 
-      <div className={`relative pb-8 flex justify-center items-start ${isMobile ? "pt-32" : "min-h-[80vh]"}`}>
+      <div className={`relative pb-8 flex justify-center items-start ${isMobile ? "pt-16" : "min-h-[80vh]"}`}>
         {/* Buddy List Window */}
         {windows.find((w) => w.id === "buddy-list")?.isOpen && (
           <Card className={`${isMobile ? "w-full mx-4 mt-4" : "w-72"} bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-left`}>
