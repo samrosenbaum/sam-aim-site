@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Resizable } from "re-resizable"
+import { useIsMobile } from "@/hooks/use-mobile"
 import {
   X,
   Minus,
@@ -86,6 +87,7 @@ export default function Desktop({
   handleAIMResponse,
   setWindows,
 }: DesktopProps) {
+  const isMobile = useIsMobile()
   // Bitcoin price ticker
   useEffect(() => {
     const fetchBitcoinPrice = async () => {
@@ -94,13 +96,21 @@ export default function Desktop({
         const data = await response.json()
         const price = data.bitcoin.usd
         const priceElement = document.getElementById('btc-price')
+        const priceMobileElement = document.getElementById('btc-price-mobile')
         if (priceElement) {
           priceElement.textContent = `$${price.toLocaleString()}`
         }
+        if (priceMobileElement) {
+          priceMobileElement.textContent = `$${price.toLocaleString()}`
+        }
       } catch (error) {
         const priceElement = document.getElementById('btc-price')
+        const priceMobileElement = document.getElementById('btc-price-mobile')
         if (priceElement) {
           priceElement.textContent = 'BTC: $--'
+        }
+        if (priceMobileElement) {
+          priceMobileElement.textContent = 'BTC: $--'
         }
       }
     }
@@ -196,21 +206,29 @@ export default function Desktop({
           image-rendering: pixelated;
           image-rendering: crisp-edges;
         }
+
+        .touch-target {
+          min-height: 44px;
+          min-width: 44px;
+        }
       `}</style>
 
 
 {/* Windows 95 Desktop Icons */}
-<div className="absolute top-4 left-4 space-y-6 z-10">
+<div className={`${isMobile 
+  ? "fixed top-16 left-0 right-0 p-4 bg-teal-500/90 backdrop-blur-sm grid grid-cols-4 gap-3 z-20 border-b border-teal-600" 
+  : "absolute top-4 left-4 space-y-6 z-10"
+}`}>
         <a
           href="/reading-list.txt"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group"
+          className={`flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group ${isMobile ? "touch-target" : ""}`}
         >
-          <div className="w-8 h-8 bg-gray-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
-            <span className="text-lg">📚</span>
+          <div className={`${isMobile ? "w-10 h-10" : "w-8 h-8"} bg-gray-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm`}>
+            <span className={`${isMobile ? "text-xl" : "text-lg"}`}>📚</span>
           </div>
-          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+          <span className={`text-white font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded ${isMobile ? "text-xs" : "text-xs"}`}>
             My Library
           </span>
         </a>
@@ -304,7 +322,8 @@ export default function Desktop({
         </div>
       </div>
 
-      {/* Bottom Right Desktop Icon */}
+      {/* Bottom Right Desktop Icon - hide on mobile, already in main grid */}
+      {!isMobile && (
       <div className="absolute bottom-20 right-4 z-10">
         <a
           href="https://bitcoin.org/bitcoin.pdf"
@@ -323,13 +342,34 @@ export default function Desktop({
           </div>
         </a>
       </div>
+      )}
+
+      {/* Bitcoin icon for mobile - add to main grid */}
+      {isMobile && (
+        <a
+          href="https://bitcoin.org/bitcoin.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex flex-col items-center cursor-pointer hover:bg-blue-400/20 p-2 rounded transition-colors group touch-target"
+        >
+          <div className="w-10 h-10 bg-orange-300 border border-gray-400 rounded flex items-center justify-center mb-1 shadow-sm">
+            <span className="text-xl">🍕</span>
+          </div>
+          <span className="text-white text-xs font-bold text-center leading-tight group-hover:bg-blue-600 px-1 rounded">
+            Pizza Money
+          </span>
+          <div className="text-[10px] text-yellow-300 font-mono mt-1" id="btc-price-mobile">
+            Loading...
+          </div>
+        </a>
+      )}
 
       {/* Windows 95 Taskbar */}
-      <div className="fixed bottom-0 left-0 right-0 h-8 bg-gray-300 border-t-2 border-gray-400 flex items-center px-1 z-50">
+      <div className={`fixed bottom-0 left-0 right-0 ${isMobile ? "h-12" : "h-8"} bg-gray-300 border-t-2 border-gray-400 flex items-center px-1 z-50`}>
         {/* Start Button */}
         <Button
           size="sm"
-          className="h-6 bg-gray-300 hover:bg-gray-200 text-black border border-gray-400 text-xs font-bold px-2 mr-2 shadow-sm"
+          className={`${isMobile ? "h-8" : "h-6"} bg-gray-300 hover:bg-gray-200 text-black border border-gray-400 text-xs font-bold px-2 mr-2 shadow-sm`}
         >
           <span className="mr-1">🪟</span>
           Start
@@ -347,7 +387,7 @@ export default function Desktop({
                 <Button
                   key={window.id}
                   size="sm"
-                  className="h-6 bg-gray-200 text-black border border-gray-400 text-xs px-2 max-w-32 truncate cursor-default"
+                  className={`${isMobile ? "h-8" : "h-6"} bg-gray-200 text-black border border-gray-400 text-xs px-2 ${isMobile ? "max-w-24" : "max-w-32"} truncate cursor-default`}
                   disabled
                 >
                   {window.title}
@@ -356,7 +396,7 @@ export default function Desktop({
                 <Button
                   key={window.id}
                   size="sm"
-                  className="h-6 bg-gray-200 hover:bg-gray-100 text-black border border-gray-400 text-xs px-2 max-w-32 truncate"
+                  className={`${isMobile ? "h-8" : "h-6"} bg-gray-200 hover:bg-gray-100 text-black border border-gray-400 text-xs px-2 ${isMobile ? "max-w-24" : "max-w-32"} truncate`}
                   onClick={() => toggleWindow(window.id)}
                 >
                   {window.title}
@@ -377,10 +417,10 @@ export default function Desktop({
         </div>
       </div>
 
-      <div className="relative pb-8 flex justify-center items-start min-h-[80vh]">
+      <div className={`relative pb-8 flex justify-center items-start ${isMobile ? "pt-32" : "min-h-[80vh]"}`}>
         {/* Buddy List Window */}
         {windows.find((w) => w.id === "buddy-list")?.isOpen && (
-          <Card className="w-72 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-left">
+          <Card className={`${isMobile ? "w-full mx-4 mt-4" : "w-72"} bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-left`}>
             {/* Title Bar */}
             <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-2 py-1 flex items-center justify-between text-sm">
               <span className="font-bold">📱 SamRosenbaum91's Buddy List</span>
@@ -650,8 +690,11 @@ export default function Desktop({
         {/* Contact Window */}
         {showContactWindow && (
           <Card 
-            className="absolute bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up w-96 z-20"
-            style={getWindowPosition(windows, "contact", "contact")}
+            className={`${isMobile 
+              ? "fixed inset-4 z-30 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up overflow-y-auto" 
+              : "absolute bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up w-96 z-20"
+            }`}
+            style={isMobile ? {} : getWindowPosition(windows, "contact", "contact")}
           >
             <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-2 py-1 flex items-center justify-between text-sm">
               <span className="font-bold">📧 Contact Sam</span>
@@ -737,7 +780,10 @@ export default function Desktop({
 
         {/* Notification Window */}
         {notifications.length > 0 && showNotification && (
-          <Card className="absolute top-4 right-[10rem] w-80 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-right">
+          <Card className={`${isMobile 
+            ? "fixed top-20 left-4 right-4 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-right z-30" 
+            : "absolute top-4 right-[10rem] w-80 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-right"
+          }`}>
             <div className="bg-gradient-to-r from-orange-600 to-orange-800 text-white px-2 py-1 flex items-center justify-between text-sm">
               <span className="font-bold">📨 New Message</span>
               <Button
@@ -764,6 +810,56 @@ export default function Desktop({
 
         {/* Profile Window */}
         {windows.find((w) => w.id === "profile")?.isOpen && (
+          isMobile ? (
+            <Card className="fixed inset-4 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up z-30 overflow-y-auto">
+              <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white px-2 py-1 flex items-center justify-between text-sm">
+                <span className="font-bold">👤 Profile: Sam Rosenbaum</span>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-4 w-4 p-0 text-white hover:bg-purple-700"
+                  onClick={() => closeWindow("profile")}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
+
+              <div className="p-4 max-h-96 overflow-y-auto">
+                <div className="text-center mb-4">
+                  <div className="w-16 h-16 mx-auto mb-2 rounded border-2 border-gray-400 overflow-hidden bg-white flex items-center justify-center">
+                    <img
+                      src="sam-buddy-icon.png"
+                      alt="Sam's Buddy Icon"
+                      className="w-full h-full object-contain pixelated"
+                    />
+                  </div>
+                  <h2 className="font-bold text-lg">Sam Rosenbaum</h2>
+                  <p className="text-sm text-gray-600">I help startups grow</p>
+                </div>
+
+                <div className="space-y-3 text-sm">
+                  <div>
+                    <strong>Status</strong> Available for select projects
+                  </div>
+                  <div>
+                    <strong>Location</strong> Based in San Francisco / often found in NYC
+                  </div>
+                  <div>
+                    <strong>About</strong>
+                    <div className="text-sm text-gray-700 mb-2">
+                      Spent 10+ years in sales on early-stage growth teams, building scalable revenue playbooks and working to master the art of negotiation and closing. I've generated millions of dollars in revenue for technology companies.
+                    </div>
+                    <ul className="list-disc pl-5 text-sm text-gray-700 space-y-1">
+                      <li>Right now I'm focused on technical skills and leveraging AI tools.</li>
+                      <li>I have a deep network in the Venture Capital & startup ecosystems.</li>
+                      <li>700+ deals closed in my last role.</li>
+                      <li>Currently enjoying learning through building my own products.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          ) : (
           <Resizable
             defaultSize={{ width: 384, height: 500 }}
             minWidth={320}
@@ -832,13 +928,17 @@ export default function Desktop({
               </div>
             </Card>
           </Resizable>
+          )
         )}
 
         {/* Career Stats Window */}
         {windows.find((w) => w.id === "stats")?.isOpen && (
           <Card
-            className="absolute bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up w-96 z-20"
-            style={getWindowPosition(windows, "stats", "stats")}
+            className={`${isMobile 
+              ? "fixed inset-4 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up z-30 overflow-y-auto" 
+              : "absolute bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up w-96 z-20"
+            }`}
+            style={isMobile ? {} : getWindowPosition(windows, "stats", "stats")}
           >
             <div className="bg-gradient-to-r from-green-600 to-green-800 text-white px-2 py-1 flex items-center justify-between text-sm">
               <span className="font-bold">📊 Career Stats</span>
@@ -898,8 +998,11 @@ export default function Desktop({
         {/* Fun Stuff Window */}
         {windows.find((w) => w.id === "personal")?.isOpen && (
           <Card
-            className="absolute bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up w-96 z-20"
-            style={getWindowPosition(windows, "personal", "personal")}
+            className={`${isMobile 
+              ? "fixed inset-4 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up z-30 overflow-y-auto" 
+              : "absolute bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up w-96 z-20"
+            }`}
+            style={isMobile ? {} : getWindowPosition(windows, "personal", "personal")}
           >
             <div className="bg-gradient-to-r from-orange-600 to-orange-800 text-white px-2 py-1 flex items-center justify-between text-sm">
               <span className="font-bold">🎉 Fun Stuff</span>
@@ -1024,8 +1127,11 @@ export default function Desktop({
         {/* AIM Popup Window */}
         {windows.find((w) => w.id === "aim-popup")?.isOpen && (
           <Card
-            className="absolute bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up w-[480px] max-h-[400px] overflow-y-auto"
-            style={{ left: 220, top: 60, zIndex: 1000, position: 'absolute' }}
+            className={`${isMobile 
+              ? "fixed inset-4 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up z-30 overflow-y-auto" 
+              : "absolute bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up w-[480px] max-h-[400px] overflow-y-auto"
+            }`}
+            style={isMobile ? {} : { left: 220, top: 60, zIndex: 1000, position: 'absolute' }}
           >
             <div className="bg-gradient-to-r from-green-600 to-green-800 text-white px-2 py-1 flex items-center justify-between text-sm">
               <span className="font-bold">💬 New Message from Sam</span>
@@ -1088,8 +1194,11 @@ export default function Desktop({
           .map((window, index) => (
             <Card
               key={window.id}
-              className="absolute bg-gray-100 border-2 border-gray-400 shadow-lg w-96 animate-slide-in-up z-20"
-              style={getWindowPosition(windows, window.id, window.type)}
+              className={`${isMobile 
+                ? "fixed inset-4 bg-gray-100 border-2 border-gray-400 shadow-lg animate-slide-in-up z-30 overflow-y-auto" 
+                : "absolute bg-gray-100 border-2 border-gray-400 shadow-lg w-96 animate-slide-in-up z-20"
+              }`}
+              style={isMobile ? {} : getWindowPosition(windows, window.id, window.type)}
             >
               <div className="bg-gradient-to-r from-green-600 to-green-800 text-white px-2 py-1 flex items-center justify-between text-sm">
                 <span className="font-bold">💬 {window.title}</span>
