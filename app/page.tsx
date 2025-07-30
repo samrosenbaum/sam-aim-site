@@ -90,7 +90,7 @@ export default function AIMPortfolio() {
       id: "coldcase",
       name: "Case Cracker AI",
       icon: "🔍",
-      description: "AI analysis for law enforcement to review case files and spot clues human brain may miss",
+      description: "AI-powered cold case analysis tool for law enforcement",
       tools: ["Supabase", "React", "Cursor", "Vercel", "GPT-4", "Claude"],
       details:
         "Nearly 346,000 cases of homicide and non-negligent manslaughter went unsolved from 1965 to 2023. Building software where law enforcement can upload evidence and use sophisticated AI analysis to bulk review large case files, spot clues, flag untested evidence and identify potential suspects.",
@@ -99,7 +99,7 @@ export default function AIMPortfolio() {
       id: "n8n-automation",
       name: "Pinfast - Marketing Content Automator",
       icon: "🤖",
-      description: "Automated bulk content creation and posting to Pinterest for store owners",
+      description: "Automated Pinterest content creation for e-commerce stores",
       tools: ["n8n", "Claude Sonnet 4", "JSON"],
       details:
         "Built automated workflows using n8n to streamline small business online marketing ops. Created integrations with Etsy and Pinterest APIs to automatically generate and post bulk content, saving hours of manual work. This project demonstrates my ability to learn new tools quickly and build practical automation solutions.",
@@ -108,7 +108,7 @@ export default function AIMPortfolio() {
       id: "zonefinder",
       name: "ZoneFinder",
       icon: "🏠",
-      description: "UX for real estate developers to find housing zones in CA",
+      description: "Real estate zoning lookup tool for California developers",
       tools: ["React.js", "v0", "Vercel", "Visual Studio Code"],
       details:
         "A real estate developer friend expressed finding housing zones as a pain-point. Built a clean UX to solve this specific problem for California real estate development.",
@@ -117,7 +117,7 @@ export default function AIMPortfolio() {
       id: "yrboyfriend",
       name: "Yrboyfriend",
       icon: "💕",
-      description: "AI companions, pivoted to personas of real fantasy characters so fans can chat",
+      description: "AI companion chat with fantasy character personas",
       tools: ["React.js", "Vercel", "Visual Studio Code", "AI/LLMs"],
       details:
         "Designed around the research that '25% of young adults believe that AI has the potential to replace real-life romantic relationships.' Exploring the intersection of AI and human connection.",
@@ -127,7 +127,7 @@ export default function AIMPortfolio() {
       id: "kai",
       name: "Kai GPT",
       icon: "🧠",
-      description: "GPT focused on anxiety and panic attacks with therapeutic techniques",
+      description: "Therapeutic AI assistant for anxiety and panic attacks",
       tools: ["OpenAI GPT", "Therapeutic AI", "Mental Health"],
       details:
         "Started building a full app but works fine as a simple GPT. Specifically designed to help people talk through anxiety and panic attacks using proven therapeutic techniques.",
